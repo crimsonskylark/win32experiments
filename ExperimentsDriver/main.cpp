@@ -28,7 +28,7 @@ void WorkItemExperiments(PDEVICE_OBJECT DeviceObject) {
       DbgPrint("unable to allocate work item: out of memory\n");
       return;
     }
-    auto ctx = static_cast<WorkItemCtx*>(
+    auto ctx = static_cast<WorkItemCtx *>(
         ExAllocatePoolWithTag(PagedPool, sizeof(WorkItemCtx), 'KROW'));
     if (ctx) {
       ctx->work_id = id;
@@ -40,7 +40,7 @@ void WorkItemExperiments(PDEVICE_OBJECT DeviceObject) {
   }
 }
 
-#pragma end region
+#pragma endregion WorkItem
 
 NTSTATUS DriverIoctl(PDEVICE_OBJECT DeviceObject, PIRP Irp) {
   UNREFERENCED_PARAMETER(DeviceObject);
