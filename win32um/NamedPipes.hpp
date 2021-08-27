@@ -8,4 +8,6 @@ HANDLE NpCreateNamedPipe();
 size_t SvWriteToPipe(PVOID buffer);
 size_t SvReadFromPipe(PVOID buffer);
 
+void RunNamedPipesExperiment();
+
 }  // namespace named_pipes

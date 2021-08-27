@@ -4,6 +4,7 @@ public TestMethod
 
 .data
 sum DWORD 0
+buf db 0e9h, 42h, 42h, 42h, 42h, 42h, 42h, 42h, 42h
 
 .code
 myFunc PROC
@@ -24,4 +25,17 @@ TestMethod PROC
 	mov rax, rdx
 	ret
 TestMethod ENDP
+
+GetTeb PROC
+	xor rax, rax
+	mov rax, gs:[30h]
+	push rdx
+	xor rdx, rdx
+	lea rdx, byte ptr [buf]
+	xor rdx, rdx
+	pop rdx
+	ret
+ret
+GetTeb ENDP
+
 END

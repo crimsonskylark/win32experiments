@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cc" />
+    <ClCompile Include="mutate.cc" />
     <ClCompile Include="NamedPipes.cc" />
     <ClCompile Include="pe.cpp" />
   </ItemGroup>

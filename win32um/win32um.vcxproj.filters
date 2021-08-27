@@ -24,6 +24,9 @@
     <ClCompile Include="pe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mutate.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NamedPipes.hpp">
