@@ -1,31 +1,74 @@
-#include <algorithm>
-#include <vector>
-#include "NamedPipes.hpp"
-#include "Introspect.hh"
-#include <winternl.h>
+#include <Windows.h>
+#include <iostream>
+#include <string>
+#include <intrin.h>
 
-extern "C" int myFunc();
-extern "C" void* TestMethod();
-extern "C" PVOID GetTeb();
+HANDLE ThreadStartEvent{ nullptr };
 
-using MessageBufTy = struct {
-  std::string msg_buf;
-  size_t timestamp;
-  bool delivered;
-};
+DWORD Thread( LPVOID context )
+{
+    const auto sem_handle{
+        OpenSemaphoreW( SEMAPHORE_ALL_ACCESS,
+                        FALSE,
+                        L"Sem1" )
+    };
 
-int main() {
-  std::wcout << "[main thread] starting experiments"
-             << "\n";
+    std::printf( "handle for \"Sem1\": 0x%8p\n",
+                 sem_handle );
 
-  
-  auto v = (PPEB_LDR_DATA*)TestMethod();
+    if ( !SetEvent( ThreadStartEvent ) )
+    {
+        std::printf( "unable to set event: 0x%08x\n", GetLastError( ) );
+        return 0;
+    }
 
-  auto teb = (_TEB*)GetTeb();
-  
-  /*introspect();
+    WaitForSingleObject( sem_handle, INFINITE );
 
-  named_pipes::RunNamedPipesExperiment();  */
+    std::printf( "wait satisfied\n" );
 
-  std::cin.get();
+    CloseHandle( sem_handle );
+
+    return 1;
+}
+
+int main_( )
+{
+    std::wcout << "[main thread] starting experiments"
+            << "\n";
+
+
+    const auto semaphore_handle{
+        CreateSemaphoreW( nullptr,
+                          0,
+                          2,
+                          L"Sem1" )
+    };
+
+    ThreadStartEvent = CreateEventW( nullptr, TRUE, FALSE, nullptr );
+
+    std::printf( "semaphore handle: 0x%8p\n",
+                 semaphore_handle );
+
+    CreateThread( nullptr,
+                  0,
+                  Thread,
+                  nullptr,
+                  0,
+                  nullptr );
+
+    WaitForSingleObject( ThreadStartEvent, INFINITE );
+
+    ReleaseSemaphore( semaphore_handle,
+                      1,
+                      nullptr );
+
+    std::printf( "first semaphore release\n" );
+
+    ReleaseSemaphore( semaphore_handle,
+                      1,
+                      nullptr );
+
+    std::printf( "second semaphore release\n" );
+
+    return 1;
 }

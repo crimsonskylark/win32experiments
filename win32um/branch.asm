@@ -35,7 +35,11 @@ GetTeb PROC
 	xor rdx, rdx
 	pop rdx
 	ret
-ret
 GetTeb ENDP
+
+GetRIP PROC
+	mov rax, [rsp]
+	ret
+GetRIP ENDP
 
 END

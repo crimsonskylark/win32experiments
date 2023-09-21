@@ -27,6 +27,12 @@
     <ClCompile Include="mutate.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fls_tls.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vtable.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NamedPipes.hpp">
